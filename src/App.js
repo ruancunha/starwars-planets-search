@@ -1,9 +1,12 @@
 import React from 'react';
 import './App.css';
+import fetchPlanets from './services/planetsAPI';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <table>
+      
+    </table>
   );
 }
 
