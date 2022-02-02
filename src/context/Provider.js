@@ -11,14 +11,20 @@ const initialInput = {
   },
 };
 
-const initialFilter = {
-  filterByNumericValues: [
-    {
-      column: 'population',
-      comparison: 'maior que',
-      value: '0',
-    },
-  ],
+const columns = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
+export const comparisons = [
+  'maior que', 'menor que', 'igual a',
+];
+
+const filters = {
+  filterByNumericValues: [],
 };
 
 function Provider({ children }) {
@@ -26,15 +32,8 @@ function Provider({ children }) {
   const [entries, setEntries] = useState([]);
   const [input, setInput] = useState(initialInput);
   const [search, setSearch] = useState([]);
-  const [filter, setFilter] = useState(initialFilter);
-
-  useEffect(() => {
-    (async () => {
-      const { results } = await fetchPlanets();
-      setPlanets(results);
-      setEntries(Object.keys(results[0]));
-    })();
-  }, []);
+  const [columnFilter, setColumnFilter] = useState(columns);
+  const [showFilter, setShowFilter] = useState(filters);
 
   useEffect(() => {
     (() => {
@@ -43,38 +42,28 @@ function Provider({ children }) {
     })();
   }, [input, planets]);
 
-  const saveStateGlobal = (column, comparison, value) => {
-    setFilter(() => ({
-      filterByNumericValues: [
-        {
-          column,
-          comparison,
-          value,
-        },
-      ],
-    }));
-  };
+  useEffect(() => {
+    (async () => {
+      const { results } = await fetchPlanets();
+      setPlanets(results);
+      setEntries(Object.keys(results[0]));
+      setSearch(results);
+    })();
+  }, []);
 
-  const appliedFilter = () => {
-    const { filterByNumericValues } = filter;
-    const { column, comparison, value } = filterByNumericValues[0];
-    const convertedFilter = search.filter((planet) => {
-      const columnNumber = Number(planet[column]);
-      const valueNumber = Number(value);
+  // Solucao e refatoramento de Mariana Saraiva
+  const saveStateGlobal = (column, comparison, value) => {
+    setColumnFilter(columnFilter.filter((e) => e !== column));
+    setSearch(() => {
       if (comparison === 'maior que') {
-        return columnNumber > valueNumber;
+        return search.filter((e) => e[column] > Number(value));
       }
       if (comparison === 'menor que') {
-        return columnNumber < valueNumber;
+        return search.filter((e) => e[column] < Number(value));
       }
-      return columnNumber === valueNumber;
+      return search.filter((e) => e[column] === value);
     });
-    setSearch(convertedFilter);
   };
-
-  useEffect(() => {
-    appliedFilter();
-  }, [filter]);
 
   const handleChange = ({ target }) => {
     setInput({
@@ -87,7 +76,15 @@ function Provider({ children }) {
   };
 
   const endContext = {
-    planets, entries, handleChange, search, saveStateGlobal,
+    planets,
+    entries,
+    handleChange,
+    search,
+    saveStateGlobal,
+    columnFilter,
+    setColumnFilter,
+    showFilter,
+    setShowFilter,
   };
 
   return (
