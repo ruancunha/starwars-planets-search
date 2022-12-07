@@ -12,11 +12,11 @@ const initialInput = {
 };
 
 const columns = [
-  'population',
-  'orbital_period',
-  'diameter',
-  'rotation_period',
-  'surface_water',
+  'população',
+  'Período orbital',
+  'Diametro',
+  'Período de rotação',
+  'Área água superficial',
 ];
 
 export const comparisons = [
