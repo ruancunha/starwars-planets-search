@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import context from '../context';
+import './Search.css';
 import { comparisons } from '../context/Provider';
 
 function Search() {
@@ -42,36 +43,43 @@ function Search() {
   return (
     <div>
       <form>
-        <input
-          type="text"
-          data-testid="name-filter"
-          onChange={ handleChange }
-        />
-        <select
-          data-testid="column-filter"
-          onChange={ (e) => setColumn(e.target.value) }
-          value={ column }
-        >
-          {columnFilter.map((e, i) => (
-            <option value={ e } key={ i }>{ e }</option>
-          ))}
-        </select>
-        <select
-          data-testid="comparison-filter"
-          onChange={ (e) => setComparison(e.target.value) }
-          value={ comparison }
-        >
-          {comparisons.map((e, i) => (
-            <option value={ e } key={ i }>{ e }</option>
-          ))}
-        </select>
-        <input
-          type="number"
-          data-testid="value-filter"
-          onChange={ (e) => setValue(e.target.value) }
-          value={ value }
+        <label id="name-label" htmlFor="name-filter">
+          Procure pelo nome:
+          <input
+            type="text"
+            id="name-filter"
+            data-testid="name-filter"
+            placeholder="Tente 'Tatooine'"
+            onChange={ handleChange }
+          />
+        </label>
+        <div>
+          <select
+            data-testid="column-filter"
+            onChange={ (e) => setColumn(e.target.value) }
+            value={ column }
+          >
+            {columnFilter.map((e, i) => (
+              <option value={ e } key={ i }>{ e }</option>
+            ))}
+          </select>
+          <select
+            data-testid="comparison-filter"
+            onChange={ (e) => setComparison(e.target.value) }
+            value={ comparison }
+          >
+            {comparisons.map((e, i) => (
+              <option value={ e } key={ i }>{ e }</option>
+            ))}
+          </select>
+          <input
+            type="number"
+            data-testid="value-filter"
+            onChange={ (e) => setValue(e.target.value) }
+            value={ value }
 
-        />
+          />
+        </div>
         <button
           type="button"
           data-testid="button-filter"

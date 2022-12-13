@@ -1,8 +1,11 @@
 import React, { useContext } from 'react';
+import './Table.css';
 import context from '../context';
 
 function filterResidents(obj) {
-  const result = Object.entries(obj).filter(([key]) => key !== 'residents');
+  const result = Object
+    .entries(obj)
+    .filter(([key]) => key !== 'residents' && key !== 'created' && key !== 'edited');
   return Object.values(Object.fromEntries(result));
 }
 
@@ -14,7 +17,8 @@ function Table() {
         <thead>
           <tr>
             { entries
-              .filter((a) => a !== 'residents').map((d) => (<th key={ d }>{ d }</th>)) }
+              .filter((a) => a !== 'residents' && a !== 'created' && a !== 'edited')
+              .map((d) => (<th key={ d }>{ d }</th>)) }
           </tr>
         </thead>
         <tbody>

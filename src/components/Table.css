@@ -1,0 +1,18 @@
+th, td {
+  border: 1px solid;
+}
+
+th {
+  border: 2px solid #FFE81F;
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+td {
+  background-color: rgb(240, 238, 213);
+  color: #000000;
+}
+
+#name-label {
+  margin: 0 auto;
+}
